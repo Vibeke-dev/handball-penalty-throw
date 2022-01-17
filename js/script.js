@@ -112,11 +112,10 @@ function drawPitch(width, height) {
       }
 
   }
-  
-  //fra
 
 function throwBall(){
     myGameBall.speedY = -1; 
+    //myGameBall.speedX = -0.5; rammer stolpen
     myGameBall.speedX = 0; 
 }
 
@@ -125,18 +124,28 @@ function goalKeeperSave(){
     goalPosition1 = centerField-150; 
     goalPosition2 = centerField+150; 
 
-    console.log("X ball: " + myGameBall.x + "keeper: " + myGameGoalKeeper.x);
-    console.log("Y ball: " + myGameBall.y + "keeper: " + myGameGoalKeeper.y);
-
-    if (myGameGoalKeeper.y>=(myGameBall.y-40) && myGameGoalKeeper.x-10<=myGameBall.x && myGameGoalKeeper.x+10>=myGameBall.x){
-        console.log("keeper: " + myGameGoalKeeper.x + "1X ball: " + myGameBall.x);
-        console.log("keeper: " + myGameGoalKeeper.y + "Y ball: " + (myGameBall.y-40));
+    if (myGameGoalKeeper.y>=(myGameBall.y-20) && myGameGoalKeeper.x-120<=myGameBall.x && myGameGoalKeeper.x+120>=myGameBall.x){
+        console.log("keeper: " + myGameGoalKeeper.x + " 1X ball: " + myGameBall.x);
+        console.log("keeper: " + myGameGoalKeeper.y + " Y ball: " + (myGameBall.y-40));
         myGameArea.stop();
+        console.log("goal keeper save the ball");
+    } 
+
+    else if (myGameBall.y <= 0 && (myGameBall.x > goalPosition2 || myGameBall.x < goalPosition1)){
+        console.log(" 1X ball: " + myGameBall.x + "stolpe 1:" + goalPosition1);
+        console.log(" Y ball: " + (myGameBall.y)+ "stolpe 2:" + goalPosition2);
+        myGameArea.stop();
+        console.log("outside of the goal");
     }
-    
+
+    else if (myGameBall.y <= 0 && (myGameBall.x < goalPosition2 || myGameBall.x > goalPosition1)){
+        console.log(" 1X ball: " + myGameBall.x + "stolpe 1:" + goalPosition1);
+        console.log(" Y ball: " + (myGameBall.y)+ "stolpe 2:" + goalPosition2);
+        myGameArea.stop();
+        console.log("goal");
+    }
 }
 
-//til
   function updateGameArea() {
       myGameArea.clear();
       drawPitch(width,height);
@@ -148,8 +157,6 @@ function goalKeeperSave(){
       goalKeeperSave();
   }
   
-
-
   function moveup() {
     myGameGoalKeeper.speedY = -1; 
 }
