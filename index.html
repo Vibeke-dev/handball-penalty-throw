@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Handball Fight</title>
+ 
+    <link rel="stylesheet" href="styles/style.css" />
+    <script src="js\script.js"></script>
+  </head>
+  <body>
+    <!-- the magic happens inside this tag - 
+        it's HTML5 tag that supports animation -->
+    <!-- <canvas id="canvas" width="500" height="680"></canvas> -->
+    
+    <!-- <img src="image\handballGoal.jfif" alt="" class="handballGoal"> -->
+    
+    <button onclick="draw()">Start Game</button>
+    <button onclick="startGame()">Play Game</button>
+    
+    <div style="text-align:center;width:480px;">
+        <button onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()">UP</button><br><br>
+        <button onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()">LEFT</button>
+        <button onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()">RIGHT</button><br><br>
+        <button onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()">DOWN</button>
+      </div>
+
+  </body>
+</html>
