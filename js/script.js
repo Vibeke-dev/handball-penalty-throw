@@ -66,9 +66,16 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     myBackground = new component(1000, 700, backgroundCanvas, 0, 0, "image");
     myGameGoalKeeper = new component(150, 100, "image/NiklasLandinCopy1.png", width/2-60, 10, "image");
     myGameBall = new component(50, 50, "image/ball-removebg-preview.png", width/2-20, 300, "image"); //init for the ball
+    
     myShootLeft = new component("30px", "Consolas", "black", 100, 500, "text");
     myScoreLandin = new component("30px", "Consolas", "black", 1400, 500, "text");
     myScoreComputer = new component("30px", "Consolas", "black", 1400, 550, "text");
+    myResult = new component("50px", "Consolas", "black", 600, 450, "text");
+    
+    myWinKeeper = new component(400, 400, "image/LandinTakesBall.jfif", width/2-200, 0, "image");
+    myLoseKeeper = new component(400, 400, "image/LandinMissesBall.jfif", width/2-200, 0, "image");
+    myTotalWin = new component(400, 400, "image/winPicture3.jfif", width/2-200, 0, "image");
+    myTotalLose = new component(400, 400, "image/losePicture.jfif", width/2-200, 0, "image");
   }
   
   var myGameArea = {
@@ -181,7 +188,7 @@ function logKey(e) {
 
 function countBoard (penaltyLeft, scoreLandin, scoreComputer){
     document.querySelector('#penalty-throw span').innerText = penaltyLeft;
-    myShootLeft.text = "PENALTY THROW LEFT: " + penaltyLeft;
+    myShootLeft.text = "Penalty throw left: " + penaltyLeft;
     myScoreLandin.text = "Landin saved: " + scoreLandin;
     myScoreComputer.text = "Computer scored: " + scoreComputer;
     
@@ -191,24 +198,53 @@ function countBoard (penaltyLeft, scoreLandin, scoreComputer){
 }
 
 function resultScoring(result){
+    
+    
     if (result !== "no" || penaltyLeft<=0){        
-        
         countBoard(penaltyLeft, scoreLandin, scoreComputer);
-        
         myGameArea.stop();
-        result ="no"; //reset result
 
-        if (result ==="Goal"){
-           // myScoreComputer.text = "Computer"
+        if (result === "Goal"){
+            if (scoreComputer === 3){
+                myTotalLose.newPos();
+                myTotalLose.update();
+
+                myGameArea.stop();
+            }
+            else {
+                myResult.text = "Computer scored - Buuhh";
+                myResult.update();
+
+                myLoseKeeper.newPos();
+                myLoseKeeper.update();
+            }
+        } 
+        else if (result === "Saved"){
+            if (scoreLandin === 3){
+                //speed level should be increased
+                myTotalWin.newPos();
+                myTotalWin.update();
+        
+                myGameArea.stop();
+            }
+            else{
+                myResult.text = "Landin/you took the ball";
+                myResult.update();
+
+                myWinKeeper.newPos();
+                myWinKeeper.update();
+            }
+            
         }
-
-    }
+        
+        result ="no"; //reset result
+    }   
 }
 
   function updateGameArea() {
     myGameArea.clear();
     result = goalKeeperSave();  
-    resultScoring(result);
+    //resultScoring(result);
     
     drawPitch(width, height, goalPosition1, goalPosition2, centerField);  
     myGameGoalKeeper.newPos();    
@@ -218,10 +254,7 @@ function resultScoring(result){
     
     throwBall();
     countBoard(penaltyLeft, scoreLandin, scoreComputer);
+    resultScoring(result);
     //result = goalKeeperSave();  
-    
-    
-    
-      
   }
   
