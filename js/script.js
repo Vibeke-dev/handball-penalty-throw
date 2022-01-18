@@ -7,6 +7,7 @@ function drawPitch(width, height) {
     myGameArea.context.fillStyle = 'green'; // colors handball pitch green
     myGameArea.context.fillRect(5, 12, width, height);
     myGameArea.context.clearRect(0, middleField, width, 3); // center line of the handball pitch
+    myGameArea.context.clearRect((width/2)-50, 200, (width/2)+50, 20); // center line of the handball pitch
     
     function drawGoal(x) {
         myGameArea.context.fillStyle = "red";
@@ -50,15 +51,15 @@ function drawPitch(width, height) {
   var myGameGoalKeeper;
   var myBackground;
   var myGameBall;
-  var height = 680;
-  var width = 1000;
+  var height = 1200;
+  var width = 2000;
   
   function startGame() {
     myGameArea.start();  
       
     var backgroundCanvas = drawPitch(width,height);
     myBackground = new component(1000, 700, backgroundCanvas, 0, 0, "image");
-    myGameGoalKeeper = new component(150, 100, "image/NiklasLandinCopy1.png", 420, 10, "image");
+    myGameGoalKeeper = new component(150, 100, "image/NiklasLandinCopy1.png", width/2-60, 10, "image");
     myGameBall = new component(50, 50, "image/ball-removebg-preview.png", width/2-20, 300, "image"); //init for the ball
   }
   
@@ -110,7 +111,6 @@ function drawPitch(width, height) {
           //console.log(myGameBall.x + "place X: " + this.x);   
           //console.log("place Y: " + this.y);
       }
-
   }
 
 function throwBall(){
@@ -146,6 +146,39 @@ function goalKeeperSave(){
     }
 }
 
+
+
+//Keyboard
+document.addEventListener('keydown', logKey);
+
+function logKey(e) {
+    document.addEventListener('keydown', (e) => {
+        switch (e.keyCode) {
+          case 38: // up arrow
+          myGameGoalKeeper.speedY -= 1;
+            break;
+          case 40: // down arrow
+          myGameGoalKeeper.speedY += 1;
+            break;
+          case 37: // left arrow
+          myGameGoalKeeper.speedX -= 1;
+            break;
+          case 39: // right arrow
+          myGameGoalKeeper.speedX += 1;
+            break;
+        }
+      });
+
+      document.addEventListener('keyup', (e) => {
+        myGameGoalKeeper.speedX = 0;
+        myGameGoalKeeper.speedY = 0;
+      });
+}
+
+//fra
+
+//til
+
   function updateGameArea() {
       myGameArea.clear();
       drawPitch(width,height);
@@ -157,45 +190,3 @@ function goalKeeperSave(){
       goalKeeperSave();
   }
   
-  function moveup() {
-    myGameGoalKeeper.speedY = -1; 
-}
-
-function movedown() {
-    myGameGoalKeeper.speedY = 1; 
-}
-
-function moveleft() {
-    myGameGoalKeeper.speedX = -1; 
-}
-
-function moveright() {
-    myGameGoalKeeper.speedX = 1; 
-}
-
-function clearmove() {
-    myGameGoalKeeper.speedX = 0; 
-    myGameGoalKeeper.speedY = 0; 
-}
-
-document.addEventListener('keydown', (e) => {
-    switch (e.keyCode) {
-      case 38: // up arrow
-        player.speedY -= 1;
-        break;
-      case 40: // down arrow
-        player.speedY += 1;
-        break;
-      case 37: // left arrow
-        player.speedX -= 1;
-        break;
-      case 39: // right arrow
-        player.speedX += 1;
-        break;
-    }
-  });  
-
-  document.addEventListener('keyup', (e) => {
-    player.speedX = 0;
-    player.speedY = 0;
-  });
