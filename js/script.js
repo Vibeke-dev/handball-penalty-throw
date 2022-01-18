@@ -1,13 +1,13 @@
 
-function drawPitch(width, height) {
+function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
 //function to draw the canvas area of the handball field
     let middleField = height - 100; //where the middle of the field should be placed
-    let centerField = width/2;
+    let radius = 400;
     
     myGameArea.context.fillStyle = 'green'; // colors handball pitch green
     myGameArea.context.fillRect(5, 12, width, height);
     myGameArea.context.clearRect(0, middleField, width, 3); // center line of the handball pitch
-    myGameArea.context.clearRect((width/2)-50, 200, (width/2)+50, 20); // center line of the handball pitch
+    myGameArea.context.clearRect((width/2)-80, radius+75, 160, 5); // center line of the handball pitch
     
     function drawGoal(x) {
         myGameArea.context.fillStyle = "red";
@@ -16,8 +16,8 @@ function drawPitch(width, height) {
         myGameArea.context.clearRect(x, 12, 10, 4)
       }
     
-    drawGoal(centerField-150); //draw first goal posts
-    drawGoal(centerField+150); //draw second goal posts
+    drawGoal(goalPosition1); //draw first goal posts
+    drawGoal(goalPosition2); //draw second goal posts
     
     function drawCicles(x, y, radius, startAngle, endAngle, lineDash){
         myGameArea.context.beginPath(); 
@@ -30,16 +30,16 @@ function drawPitch(width, height) {
     }
 
     drawCicles(centerField, middleField, 75, 0, Math.PI *2, [0]); //circle in the center of the handball pitch
-    drawCicles(centerField-175, 0, 200, Math.PI*0.5, Math.PI, [0]); // 1/4 circle, left side of handball field
-    drawCicles(centerField+175, 0, 200, 0, Math.PI/2, [0]); // 1/4 circle, right side of handball field
+    drawCicles(centerField-175, 0, radius, Math.PI*0.5, Math.PI, [0]); // 1/4 circle, left side of handball field
+    drawCicles(centerField+175, 0, radius, 0, Math.PI/2, [0]); // 1/4 circle, right side of handball field
     //drawCicles(centerField-250, 20, 200, Math.PI*0.5, Math.PI, [5, 10]); // 1/4 circle, left side of handball field
     //drawCicles(centerField+175, 0, 200, 0, Math.PI/2); // 1/4 circle, right side of handball field
 
     function drawLine (lineDash){
         myGameArea.context.beginPath();
         myGameArea.context.setLineDash(lineDash);
-        myGameArea.context.moveTo(centerField-175, 200);
-        myGameArea.context.lineTo(centerField+175, 200);
+        myGameArea.context.moveTo(centerField-175, radius);
+        myGameArea.context.lineTo(centerField+175, radius);
         myGameArea.context.lineWidth = 5;
         myGameArea.context.strokeStyle = 'white';
         myGameArea.context.stroke();
@@ -51,16 +51,22 @@ function drawPitch(width, height) {
   var myGameGoalKeeper;
   var myBackground;
   var myGameBall;
-  var height = 1200;
-  var width = 2000;
+  var height = 850;
+  var width = 1800;
+  var centerField = width/2;
+  var goalPosition1 = centerField-250; 
+  var goalPosition2 = centerField+250;
+  var penaltyLeft = 5;
   
   function startGame() {
     myGameArea.start();  
-      
-    var backgroundCanvas = drawPitch(width,height);
+    var backgroundCanvas = drawPitch(width, height, goalPosition1, goalPosition2, centerField);
     myBackground = new component(1000, 700, backgroundCanvas, 0, 0, "image");
     myGameGoalKeeper = new component(150, 100, "image/NiklasLandinCopy1.png", width/2-60, 10, "image");
     myGameBall = new component(50, 50, "image/ball-removebg-preview.png", width/2-20, 300, "image"); //init for the ball
+    myShootLeft = new component("30px", "Consolas", "black", 100, 500, "text");
+    myScoreLandin = new component("30px", "Consolas", "black", 1000, 500, "text");
+    myScoreComputer = new component("30px", "Consolas", "black", 1000, 550, "text");
   }
   
   var myGameArea = {
@@ -100,7 +106,13 @@ function drawPitch(width, height) {
                   this.x, 
                   this.y,
                   this.width, this.height);
-          } else {
+          } 
+          else if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+          }
+          else {
               ctx.fillStyle = color;
               ctx.fillRect(this.x, this.y, this.width, this.height);
           }
@@ -108,45 +120,38 @@ function drawPitch(width, height) {
       this.newPos = function() {
           this.x += this.speedX;
           this.y += this.speedY;     
-          //console.log(myGameBall.x + "place X: " + this.x);   
-          //console.log("place Y: " + this.y);
       }
   }
 
 function throwBall(){
-    myGameBall.speedY = -1; 
-    //myGameBall.speedX = -0.5; rammer stolpen
-    myGameBall.speedX = 0; 
+    myGameBall.speedY = -10; 
+    //myGameBall.speedX = -0.9; rammer stolpen
+    myGameBall.speedX = 2; 
 }
 
 function goalKeeperSave(){
-    let centerField = width/2;
-    goalPosition1 = centerField-150; 
-    goalPosition2 = centerField+150; 
-
     if (myGameGoalKeeper.y>=(myGameBall.y-20) && myGameGoalKeeper.x-120<=myGameBall.x && myGameGoalKeeper.x+120>=myGameBall.x){
-        console.log("keeper: " + myGameGoalKeeper.x + " 1X ball: " + myGameBall.x);
-        console.log("keeper: " + myGameGoalKeeper.y + " Y ball: " + (myGameBall.y-40));
-        myGameArea.stop();
-        console.log("goal keeper save the ball");
+        penaltyLeft -=1;
+        
+        //myGameArea.stop();
+
+        return ("goal keeper save the ball");
     } 
 
     else if (myGameBall.y <= 0 && (myGameBall.x > goalPosition2 || myGameBall.x < goalPosition1)){
-        console.log(" 1X ball: " + myGameBall.x + "stolpe 1:" + goalPosition1);
-        console.log(" Y ball: " + (myGameBall.y)+ "stolpe 2:" + goalPosition2);
-        myGameArea.stop();
+        penaltyLeft -=1;
         console.log("outside of the goal");
     }
 
     else if (myGameBall.y <= 0 && (myGameBall.x < goalPosition2 || myGameBall.x > goalPosition1)){
-        console.log(" 1X ball: " + myGameBall.x + "stolpe 1:" + goalPosition1);
-        console.log(" Y ball: " + (myGameBall.y)+ "stolpe 2:" + goalPosition2);
-        myGameArea.stop();
+        //myGameArea.stop();
+        penaltyLeft -=1;
         console.log("goal");
     }
+    else{
+        return ("no");
+    }
 }
-
-
 
 //Keyboard
 document.addEventListener('keydown', logKey);
@@ -177,16 +182,42 @@ function logKey(e) {
 
 //fra
 
+function countPenaltyLeft (penaltyLeft){
+    
+    //let textTest = document.querySelector('#penalty-throw').innerText;
+    //myShootLeft.text= textTest;
+    myShootLeft.text = "PENALTY THROW LEFT: " + penaltyLeft;
+    myShootLeft.update();
+}
 //til
 
+function resultScoring(result){
+    if (result !== "no" || penaltyLeft<=0){        
+        document.querySelector('#penalty-throw span').innerText = penaltyLeft;
+        countPenaltyLeft(penaltyLeft);
+        myShootLeft.update();
+        myGameArea.stop();
+        result ="no"; //reset result
+    }
+}
+
   function updateGameArea() {
-      myGameArea.clear();
-      drawPitch(width,height);
-      myGameGoalKeeper.newPos();    
-      myGameGoalKeeper.update();
-      myGameBall.newPos();    
-      myGameBall.update();
-      throwBall();
-      goalKeeperSave();
+    myGameArea.clear();
+    result = goalKeeperSave();  
+    resultScoring(result);
+    
+    drawPitch(width, height, goalPosition1, goalPosition2, centerField);  
+    myGameGoalKeeper.newPos();    
+    myGameGoalKeeper.update();
+    myGameBall.newPos();    
+    myGameBall.update();
+    
+    throwBall();
+    countPenaltyLeft(penaltyLeft);
+    //result = goalKeeperSave();  
+    
+    
+    
+      
   }
   
