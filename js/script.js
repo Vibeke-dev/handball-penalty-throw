@@ -59,15 +59,19 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
   var penaltyLeft = 5;
   var scoreLandin = 0;
   var scoreComputer = 0;
+  var reachLevel = 1;
+  var speedOfY = -12;
   
   function startGame() {
     myGameArea.start();  
     var backgroundCanvas = drawPitch(width, height, goalPosition1, goalPosition2, centerField);
     myBackground = new component(1000, 700, backgroundCanvas, 0, 0, "image");
     myGameGoalKeeper = new component(150, 100, "image/NiklasLandinCopy1.png", width/2-60, 10, "image");
-    myGameBall = new component(50, 50, "image/ball-removebg-preview.png", width/2-20, 300, "image"); //init for the ball
+    myGameBall = new component(50, 50, "image/ball-removebg-preview.png", width/2-20, 500, "image"); //init for the ball
     
     myShootLeft = new component("30px", "Consolas", "black", 100, 500, "text");
+    myLevel = new component("30px", "Consolas", "black", 100, 550, "text");
+    myLevelIncrease = new component("50px", "Consolas", "red", 100, 450, "text");
     myScoreLandin = new component("30px", "Consolas", "black", 1400, 500, "text");
     myScoreComputer = new component("30px", "Consolas", "black", 1400, 550, "text");
     myResult = new component("50px", "Consolas", "black", 600, 450, "text");
@@ -128,14 +132,16 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
       }
       this.newPos = function() {
           this.x += this.speedX;
-          this.y += this.speedY;     
+          this.y += this.speedY;
+          console.log(this.speedX);
+          console.log(this.speedY);     
       }
   }
 
 function throwBall(){
-    myGameBall.speedY = -10; 
+    myGameBall.speedY = speedOfY; 
     //myGameBall.speedX = -0.9; rammer stolpen
-    myGameBall.speedX = 2; 
+    myGameBall.speedX = -5.4; 
 }
 
 function goalKeeperSave(){
@@ -186,28 +192,40 @@ function logKey(e) {
       });
 }
 
+function resetValues() {
+    penaltyLeft = 5;
+    scoreLandin = 0;
+    scoreComputer = 0;
+}
+
 function countBoard (penaltyLeft, scoreLandin, scoreComputer){
-    document.querySelector('#penalty-throw span').innerText = penaltyLeft;
+    //document.querySelector('#penalty-throw span').innerText = penaltyLeft;
     myShootLeft.text = "Penalty throw left: " + penaltyLeft;
+    myLevel.text = "Level: " + reachLevel;
     myScoreLandin.text = "Landin saved: " + scoreLandin;
     myScoreComputer.text = "Computer scored: " + scoreComputer;
     
     myShootLeft.update();
+    myLevel.update();
     myScoreLandin.update();
     myScoreComputer.update();
 }
 
 function resultScoring(result){
-    
-    
     if (result !== "no" || penaltyLeft<=0){        
         countBoard(penaltyLeft, scoreLandin, scoreComputer);
         myGameArea.stop();
 
         if (result === "Goal"){
             if (scoreComputer === 3){
+                myResult.text = "GAME OVER";
+                myResult.update();
                 myTotalLose.newPos();
                 myTotalLose.update();
+
+                resetValues();
+                speedOfY = -12; //reset speed and level on game over
+                reachLevel = 1;
 
                 myGameArea.stop();
             }
@@ -222,9 +240,18 @@ function resultScoring(result){
         else if (result === "Saved"){
             if (scoreLandin === 3){
                 //speed level should be increased
+                myResult.text = "Denmark win EU 2022";
+                myResult.update();
+
                 myTotalWin.newPos();
                 myTotalWin.update();
-        
+                
+                reachLevel +=1;
+                speedOfY = speedOfY*2;
+                myLevelIncrease.text = "LEVEL UP!!"
+                myLevelIncrease.update();
+
+                resetValues();
                 myGameArea.stop();
             }
             else{
@@ -233,8 +260,7 @@ function resultScoring(result){
 
                 myWinKeeper.newPos();
                 myWinKeeper.update();
-            }
-            
+            }        
         }
         
         result ="no"; //reset result
