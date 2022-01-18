@@ -57,6 +57,8 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
   var goalPosition1 = centerField-250; 
   var goalPosition2 = centerField+250;
   var penaltyLeft = 5;
+  var scoreLandin = 0;
+  var scoreComputer = 0;
   
   function startGame() {
     myGameArea.start();  
@@ -65,8 +67,8 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     myGameGoalKeeper = new component(150, 100, "image/NiklasLandinCopy1.png", width/2-60, 10, "image");
     myGameBall = new component(50, 50, "image/ball-removebg-preview.png", width/2-20, 300, "image"); //init for the ball
     myShootLeft = new component("30px", "Consolas", "black", 100, 500, "text");
-    myScoreLandin = new component("30px", "Consolas", "black", 1000, 500, "text");
-    myScoreComputer = new component("30px", "Consolas", "black", 1000, 550, "text");
+    myScoreLandin = new component("30px", "Consolas", "black", 1400, 500, "text");
+    myScoreComputer = new component("30px", "Consolas", "black", 1400, 550, "text");
   }
   
   var myGameArea = {
@@ -132,21 +134,18 @@ function throwBall(){
 function goalKeeperSave(){
     if (myGameGoalKeeper.y>=(myGameBall.y-20) && myGameGoalKeeper.x-120<=myGameBall.x && myGameGoalKeeper.x+120>=myGameBall.x){
         penaltyLeft -=1;
-        
-        //myGameArea.stop();
-
-        return ("goal keeper save the ball");
+        scoreLandin +=1;
+        return ("Saved");
     } 
-
     else if (myGameBall.y <= 0 && (myGameBall.x > goalPosition2 || myGameBall.x < goalPosition1)){
         penaltyLeft -=1;
-        console.log("outside of the goal");
+        scoreLandin +=1;
+        return "Saved";
     }
-
     else if (myGameBall.y <= 0 && (myGameBall.x < goalPosition2 || myGameBall.x > goalPosition1)){
-        //myGameArea.stop();
         penaltyLeft -=1;
-        console.log("goal");
+        scoreComputer +=1;
+        return "Goal";
     }
     else{
         return ("no");
@@ -180,24 +179,29 @@ function logKey(e) {
       });
 }
 
-//fra
-
-function countPenaltyLeft (penaltyLeft){
-    
-    //let textTest = document.querySelector('#penalty-throw').innerText;
-    //myShootLeft.text= textTest;
+function countBoard (penaltyLeft, scoreLandin, scoreComputer){
+    document.querySelector('#penalty-throw span').innerText = penaltyLeft;
     myShootLeft.text = "PENALTY THROW LEFT: " + penaltyLeft;
+    myScoreLandin.text = "Landin saved: " + scoreLandin;
+    myScoreComputer.text = "Computer scored: " + scoreComputer;
+    
     myShootLeft.update();
+    myScoreLandin.update();
+    myScoreComputer.update();
 }
-//til
 
 function resultScoring(result){
     if (result !== "no" || penaltyLeft<=0){        
-        document.querySelector('#penalty-throw span').innerText = penaltyLeft;
-        countPenaltyLeft(penaltyLeft);
-        myShootLeft.update();
+        
+        countBoard(penaltyLeft, scoreLandin, scoreComputer);
+        
         myGameArea.stop();
         result ="no"; //reset result
+
+        if (result ==="Goal"){
+           // myScoreComputer.text = "Computer"
+        }
+
     }
 }
 
@@ -213,7 +217,7 @@ function resultScoring(result){
     myGameBall.update();
     
     throwBall();
-    countPenaltyLeft(penaltyLeft);
+    countBoard(penaltyLeft, scoreLandin, scoreComputer);
     //result = goalKeeperSave();  
     
     
