@@ -60,7 +60,8 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
   var scoreLandin = 0;
   var scoreComputer = 0;
   var reachLevel = 1;
-  var speedOfY = -12;
+  var speedOfY = -4;
+  var speedOfX = randomIntFromInterval(-1.8, 1.8);
   
   function startGame() {
     myGameArea.start();  
@@ -133,15 +134,20 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
       this.newPos = function() {
           this.x += this.speedX;
           this.y += this.speedY;
-          console.log(this.speedX);
-          console.log(this.speedY);     
+          //console.log(this.speedX);
+          //console.log(this.speedY);     
       }
   }
 
 function throwBall(){
     myGameBall.speedY = speedOfY; 
-    //myGameBall.speedX = -0.9; rammer stolpen
-    myGameBall.speedX = -5.4; 
+    myGameBall.speedX = speedOfX; 
+    console.log(myGameBall.speedX);
+}
+
+function randomIntFromInterval(min, max) { 
+    let randomnum = Number((Math.random() * (max - min + min) + min).toFixed(2));
+    return randomnum;
 }
 
 function goalKeeperSave(){
@@ -201,7 +207,7 @@ function resetValues() {
 function countBoard (penaltyLeft, scoreLandin, scoreComputer){
     //document.querySelector('#penalty-throw span').innerText = penaltyLeft;
     myShootLeft.text = "Penalty throw left: " + penaltyLeft;
-    myLevel.text = "Level: " + reachLevel;
+    myLevel.text = "Level: " + reachLevel + "/3";
     myScoreLandin.text = "Landin saved: " + scoreLandin;
     myScoreComputer.text = "Computer scored: " + scoreComputer;
     
@@ -224,7 +230,7 @@ function resultScoring(result){
                 myTotalLose.update();
 
                 resetValues();
-                speedOfY = -12; //reset speed and level on game over
+                speedOfY = -4; //reset speed and level on game over
                 reachLevel = 1;
 
                 myGameArea.stop();
@@ -247,7 +253,7 @@ function resultScoring(result){
                 myTotalWin.update();
                 
                 reachLevel +=1;
-                speedOfY = speedOfY*2;
+                speedOfY = speedOfY-4;
                 myLevelIncrease.text = "LEVEL UP!!"
                 myLevelIncrease.update();
 
@@ -263,8 +269,28 @@ function resultScoring(result){
             }        
         }
         
+//new random position of X
+if (result === "Saved" || result === "Goal"){
+    console.log(typeof(reachLevel));
+    switch (reachLevel){
+        case 1:
+            speedOfX = randomIntFromInterval(-1.8, 1.8);
+            break;
+        case 2:
+            speedOfX = randomIntFromInterval(-3.5, 3.5);
+            break;
+        case 3:
+            speedOfX = randomIntFromInterval(-5.4, 5.4);
+            break;
+        case 3:
+            speedOfX = randomIntFromInterval(-7.4, 7.4);
+            break;
+    }
+}
+
         result ="no"; //reset result
-    }   
+    }
+    
 }
 
   function updateGameArea() {
