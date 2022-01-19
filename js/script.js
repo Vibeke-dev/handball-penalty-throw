@@ -55,8 +55,8 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
   var myGameGoalKeeper;
   var myBackground;
   var myGameBall;
-  var height = 850;
-  var width = 1800;
+  var height = 700;
+  var width = 1200;
   var centerField = width/2;
   var goalPosition1 = centerField-250; 
   var goalPosition2 = centerField+250;
