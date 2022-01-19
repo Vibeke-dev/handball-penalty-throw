@@ -133,25 +133,20 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
           }
       }
       this.newPos = function() {
-          this.x += this.speedX;
-          this.y += this.speedY;     
+        this.x += this.speedX;
+        this.y += this.speedY;
       }
   }
 
 function throwBall(){
     myGameBall.speedY = speedOfY; 
     myGameBall.speedX = speedOfX; 
-    console.log(myGameBall.speedX);
 }
 
 function randomIntFromInterval(min, max) { 
-    //let randomnum = Number((Math.random() * (max - min + min) + min).toFixed(2));
     let randomnum = Number((Math.random() * max).toFixed(2));
     randomnum *= Math.round(Math.random()) ? 1 : -1; // this will add minus sign in 50% of cases
     return randomnum;
-
-    //var num = Math.floor(Math.random()*99) + 1; // this will get a number between 1 and 99;
-//num *= Math.round(Math.random()) ? 1 : -1; // this will add minus sign in 50% of cases
 }
 
 function goalKeeperSave(){
@@ -182,17 +177,26 @@ function logKey(e) {
     document.addEventListener('keydown', (e) => {
         switch (e.keyCode) {
           case 38: // up arrow
-          myGameGoalKeeper.speedY -= 1;
+            if (myGameGoalKeeper.y>5) {
+                myGameGoalKeeper.speedY -= 1;
+            }
             break;
           case 40: // down arrow
-          myGameGoalKeeper.speedY += 1;
+            if (myGameGoalKeeper.y<20) {
+                myGameGoalKeeper.speedY += 1;
+            }
             break;
           case 37: // left arrow
-          myGameGoalKeeper.speedX -= 1;
-            break;
+            if (myGameGoalKeeper.x>400){
+                myGameGoalKeeper.speedX -= 1;            
+            }
+          break;
+          
           case 39: // right arrow
-          myGameGoalKeeper.speedX += 1;
-            break;
+            if (myGameGoalKeeper.x<1200){
+                myGameGoalKeeper.speedX += 1;  
+            }
+          break;
         }
       });
 
@@ -228,7 +232,7 @@ function resultScoring(result){
 
         if (result === "Goal"){
             if (scoreComputer === 3){
-                myResult.text = "GAME OVER";
+                myResult.text = "GAME OVER - TRY AGAIN";
                 myResult.update();
                 myTotalLose.newPos();
                 myTotalLose.update();
@@ -285,7 +289,6 @@ function resultScoring(result){
         
     //new random position of X
     if (result === "Saved" || result === "Goal"){
-        console.log(typeof(reachLevel));
         switch (reachLevel){
             case 1:
                 speedOfX = randomIntFromInterval(-1.8, 1.8);
@@ -314,8 +317,14 @@ function resultScoring(result){
     result = goalKeeperSave();  
     
     drawPitch(width, height, goalPosition1, goalPosition2, centerField);  
+
+    
     myGameGoalKeeper.newPos();    
     myGameGoalKeeper.update();
+    myGameGoalKeeper.speedX=0; //to play in field
+    myGameGoalKeeper.speedY=0;
+    
+    
     myGameBall.newPos();    
     myGameBall.update();
     
