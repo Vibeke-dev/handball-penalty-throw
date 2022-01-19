@@ -82,7 +82,7 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     myLoseKeeper = new component(300, 200, "image/LandinMissesBall.jfif", width/2-150, 0, "image");
     myTotalWin = new component(400, 300, "image/winPicture3.jfif", width/2-200, 0, "image");
     myTotalLose = new component(400, 300, "image/losePicture.jfif", width/2-200, 0, "image");
-    myTotalWinLevel = new component(100, 200, "image/pokal2R.png", width/2-200, 600, "image");
+    myTotalWinLevel = new component(100, 200, "image/pokal2R.png", 100, 100, "image");
   }
   
   var myGameArea = {
