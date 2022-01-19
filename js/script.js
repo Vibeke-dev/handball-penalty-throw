@@ -7,11 +7,9 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     myGameArea.context.fillStyle = 'green'; // colors handball pitch green
     myGameArea.context.fillRect(0, 0, width, height);
     myGameArea.context.fillStyle = 'white';
-    myGameArea.context.fillRect(0, middleField, width, 5); // center line of the handball pitch
-    myGameArea.context.fillRect((width/2)-80, radius+75, 160, 5); // center line of the handball pitch
-    //myGameArea.context.clearRect(0, middleField, width, 3); // center line of the handball pitch
-    //myGameArea.context.clearRect((width/2)-80, radius+75, 160, 5); // center line of the handball pitch
-    
+    //myGameArea.context.fillRect(0, middleField, width, 5); // center line of the handball pitch
+    myGameArea.context.fillRect((width/2)-80, radius+75, 160, 5); // penalty line
+        
     function drawGoal(x) {
         myGameArea.context.fillStyle = "red";
         myGameArea.context.fillRect(x, 0, 10, 16);
@@ -33,12 +31,10 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
         myGameArea.context.closePath();
     }
 
-    drawCicles(centerField, middleField, 75, 0, Math.PI *2, [0]); //circle in the center of the handball pitch
+    //drawCicles(centerField, middleField, 75, 0, Math.PI *2, [0]); //circle in the center of the handball pitch
     drawCicles(centerField-175, 0, radius, Math.PI*0.5, Math.PI, [0]); // 1/4 circle, left side of handball field
     drawCicles(centerField+175, 0, radius, 0, Math.PI/2, [0]); // 1/4 circle, right side of handball field
-    //drawCicles(centerField-250, 20, 200, Math.PI*0.5, Math.PI, [5, 10]); // 1/4 circle, left side of handball field
-    //drawCicles(centerField+175, 0, 200, 0, Math.PI/2); // 1/4 circle, right side of handball field
-
+    
     function drawLine (lineDash){
         myGameArea.context.beginPath();
         myGameArea.context.setLineDash(lineDash);
@@ -55,8 +51,8 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
   var myGameGoalKeeper;
   var myBackground;
   var myGameBall;
-  var height = 705;
-  var width = 1200;
+  var height = 650;
+  var width = 1300;
   var centerField = width/2;
   var goalPosition1 = centerField-250; 
   var goalPosition2 = centerField+250;
@@ -82,10 +78,10 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     myResult = new component("50px", "Consolas", "black", 600, 450, "text");
     myCompletion = new component("60px", "Consolas", "red", 600, 600, "text");
     
-    myWinKeeper = new component(400, 400, "image/LandinTakesBall.jfif", width/2-200, 0, "image");
-    myLoseKeeper = new component(400, 400, "image/LandinMissesBall.jfif", width/2-200, 0, "image");
-    myTotalWin = new component(400, 400, "image/winPicture3.jfif", width/2-200, 0, "image");
-    myTotalLose = new component(400, 400, "image/losePicture.jfif", width/2-200, 0, "image");
+    myWinKeeper = new component(300, 200, "image/LandinTakesBall.jfif", width/2-150, 0, "image");
+    myLoseKeeper = new component(300, 200, "image/LandinMissesBall.jfif", width/2-150, 0, "image");
+    myTotalWin = new component(400, 300, "image/winPicture3.jfif", width/2-200, 0, "image");
+    myTotalLose = new component(400, 300, "image/losePicture.jfif", width/2-200, 0, "image");
     myTotalWinLevel = new component(100, 200, "image/pokal2R.png", width/2-200, 600, "image");
   }
   
