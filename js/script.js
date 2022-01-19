@@ -5,15 +5,19 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     let radius = 400;
     
     myGameArea.context.fillStyle = 'green'; // colors handball pitch green
-    myGameArea.context.fillRect(5, 12, width, height);
-    myGameArea.context.clearRect(0, middleField, width, 3); // center line of the handball pitch
-    myGameArea.context.clearRect((width/2)-80, radius+75, 160, 5); // center line of the handball pitch
+    myGameArea.context.fillRect(0, 0, width, height);
+    myGameArea.context.fillStyle = 'white';
+    myGameArea.context.fillRect(0, middleField, width, 5); // center line of the handball pitch
+    myGameArea.context.fillRect((width/2)-80, radius+75, 160, 5); // center line of the handball pitch
+    //myGameArea.context.clearRect(0, middleField, width, 3); // center line of the handball pitch
+    //myGameArea.context.clearRect((width/2)-80, radius+75, 160, 5); // center line of the handball pitch
     
     function drawGoal(x) {
         myGameArea.context.fillStyle = "red";
         myGameArea.context.fillRect(x, 0, 10, 16);
-        myGameArea.context.clearRect(x, 4, 10, 4)
-        myGameArea.context.clearRect(x, 12, 10, 4)
+        myGameArea.context.fillStyle = "white";
+        myGameArea.context.fillRect(x, 4, 10, 4)
+        myGameArea.context.fillRect(x, 12, 10, 4)
       }
     
     drawGoal(goalPosition1); //draw first goal posts
@@ -72,7 +76,7 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     
     myShootLeft = new component("30px", "Consolas", "black", 100, 500, "text");
     myLevel = new component("30px", "Consolas", "black", 100, 550, "text");
-    myLevelIncrease = new component("50px", "Consolas", "red", 100, 450, "text");
+    myLevelIncrease = new component("50px", "Consolas", "red", 500, 550, "text");
     myScoreLandin = new component("30px", "Consolas", "black", 1400, 500, "text");
     myScoreComputer = new component("30px", "Consolas", "black", 1400, 550, "text");
     myResult = new component("50px", "Consolas", "black", 600, 450, "text");
@@ -82,6 +86,7 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     myLoseKeeper = new component(400, 400, "image/LandinMissesBall.jfif", width/2-200, 0, "image");
     myTotalWin = new component(400, 400, "image/winPicture3.jfif", width/2-200, 0, "image");
     myTotalLose = new component(400, 400, "image/losePicture.jfif", width/2-200, 0, "image");
+    myTotalWinLevel = new component(100, 200, "image/pokal2R.png", width/2-200, 600, "image");
   }
   
   var myGameArea = {
@@ -90,6 +95,7 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
           this.canvas.width = width;
           this.canvas.height = height;
           this.context = this.canvas.getContext("2d");
+          this.canvas.style = "position: absolute; top: 20px; left: 0px; right: 0px; bottom: 0px; margin-left: auto; margin-right: auto";
           document.body.insertBefore(this.canvas, document.body.childNodes[0]);
           this.frameNo = 0;
           this.interval = setInterval(updateGameArea, 20);
@@ -150,7 +156,7 @@ function randomIntFromInterval(min, max) {
 }
 
 function goalKeeperSave(){
-    if (myGameGoalKeeper.y>=(myGameBall.y-20) && myGameGoalKeeper.x-120<=myGameBall.x && myGameGoalKeeper.x+120>=myGameBall.x){
+    if (myGameGoalKeeper.y>=(myGameBall.y-20) && myGameGoalKeeper.x-20<=myGameBall.x && myGameGoalKeeper.x+120>=myGameBall.x){
         penaltyLeft -=1;
         scoreLandin +=1;
         return ("Saved");
@@ -264,7 +270,7 @@ function resultScoring(result){
                 if (reachLevel<=4){
                     reachLevel +=1;
                     speedOfY = speedOfY-4;
-                    myLevelIncrease.text = "LEVEL UP!!"
+                    myLevelIncrease.text = "LEVEL UP - TRY NEXT LEVEL"
                     myLevelIncrease.update();
 
                 } else { //Game is completed
@@ -273,6 +279,9 @@ function resultScoring(result){
                     speedOfY = -4; //reset speed
                     speedOfX = randomIntFromInterval(-1.8, 1.8);
                     reachLevel = 1;
+
+                    myTotalWinLevel.newPos();
+                    myTotalWinLevel.update();
                 } 
                 
                 resetValues();

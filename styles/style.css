@@ -1,8 +1,76 @@
-.handballGoal{
-    width: 600px;
-    height: 500px;
+body{
+    background: url("../image/backgroundHerre6.jfif") no-repeat center fixed;
+    background-size: cover;
 }
 
-#penalty-throw{
-    background-color: aqua;
+button{
+    background: url("../image/flag.png") no-repeat scroll 0 0 transparent;
+    background-size: 200px;
+    width: 200px;
+    height: 150px;
+    font-weight: bold;
+    font-size: 30px;
+    color:black;
+    margin-top: 1px;
+    margin-right: 2px;
+    position:absolute;
+    top:15px;
+    right:50px;
+ 
+    border-style: dashed;
+    border-width: 10px;
+    border-color: black;
 }
+
+.keyboard{
+    width: 200px;
+    height: 150px;
+    margin-top: 1px;
+    margin-right: 2px;
+    position:absolute;
+    top: 200px;
+    right:50px;   
+}
+
+.ruleBox{
+    background-color: blanchedalmond;
+    width: 650px;
+    height: 410px;
+    
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top:40px;
+
+    border: 2px solid #EEE;
+    border-radius: 20px;
+}
+
+.ruleBox h1{
+    font-size: 30px;
+    text-align: center;
+    padding-top: 30px;
+}
+
+.ruleBox h3{
+    margin-left: 15px;
+}
+
+.headline{
+    text-align: center;
+}
+
+li {
+    font-size: 20px;
+}
+
+.pokal{
+    width: 50px;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+
