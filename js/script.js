@@ -76,6 +76,7 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     myScoreLandin = new component("30px", "Consolas", "black", 1400, 500, "text");
     myScoreComputer = new component("30px", "Consolas", "black", 1400, 550, "text");
     myResult = new component("50px", "Consolas", "black", 600, 450, "text");
+    myCompletion = new component("60px", "Consolas", "red", 600, 600, "text");
     
     myWinKeeper = new component(400, 400, "image/LandinTakesBall.jfif", width/2-200, 0, "image");
     myLoseKeeper = new component(400, 400, "image/LandinMissesBall.jfif", width/2-200, 0, "image");
@@ -133,9 +134,7 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
       }
       this.newPos = function() {
           this.x += this.speedX;
-          this.y += this.speedY;
-          //console.log(this.speedX);
-          //console.log(this.speedY);     
+          this.y += this.speedY;     
       }
   }
 
@@ -146,8 +145,13 @@ function throwBall(){
 }
 
 function randomIntFromInterval(min, max) { 
-    let randomnum = Number((Math.random() * (max - min + min) + min).toFixed(2));
+    //let randomnum = Number((Math.random() * (max - min + min) + min).toFixed(2));
+    let randomnum = Number((Math.random() * max).toFixed(2));
+    randomnum *= Math.round(Math.random()) ? 1 : -1; // this will add minus sign in 50% of cases
     return randomnum;
+
+    //var num = Math.floor(Math.random()*99) + 1; // this will get a number between 1 and 99;
+//num *= Math.round(Math.random()) ? 1 : -1; // this will add minus sign in 50% of cases
 }
 
 function goalKeeperSave(){
@@ -207,7 +211,7 @@ function resetValues() {
 function countBoard (penaltyLeft, scoreLandin, scoreComputer){
     //document.querySelector('#penalty-throw span').innerText = penaltyLeft;
     myShootLeft.text = "Penalty throw left: " + penaltyLeft;
-    myLevel.text = "Level: " + reachLevel + "/3";
+    myLevel.text = "Level: " + reachLevel + "/5";
     myScoreLandin.text = "Landin saved: " + scoreLandin;
     myScoreComputer.text = "Computer scored: " + scoreComputer;
     
@@ -231,6 +235,7 @@ function resultScoring(result){
 
                 resetValues();
                 speedOfY = -4; //reset speed and level on game over
+                speedOfX = randomIntFromInterval(-1.8, 1.8);
                 reachLevel = 1;
 
                 myGameArea.stop();
@@ -252,11 +257,20 @@ function resultScoring(result){
                 myTotalWin.newPos();
                 myTotalWin.update();
                 
-                reachLevel +=1;
-                speedOfY = speedOfY-4;
-                myLevelIncrease.text = "LEVEL UP!!"
-                myLevelIncrease.update();
+                if (reachLevel<=4){
+                    reachLevel +=1;
+                    speedOfY = speedOfY-4;
+                    myLevelIncrease.text = "LEVEL UP!!"
+                    myLevelIncrease.update();
 
+                } else { //Game is completed
+                    myCompletion.text = "GAME COMPLETED!!!";
+                    myCompletion.update();
+                    speedOfY = -4; //reset speed
+                    speedOfX = randomIntFromInterval(-1.8, 1.8);
+                    reachLevel = 1;
+                } 
+                
                 resetValues();
                 myGameArea.stop();
             }
@@ -269,25 +283,27 @@ function resultScoring(result){
             }        
         }
         
-//new random position of X
-if (result === "Saved" || result === "Goal"){
-    console.log(typeof(reachLevel));
-    switch (reachLevel){
-        case 1:
-            speedOfX = randomIntFromInterval(-1.8, 1.8);
-            break;
-        case 2:
-            speedOfX = randomIntFromInterval(-3.5, 3.5);
-            break;
-        case 3:
-            speedOfX = randomIntFromInterval(-5.4, 5.4);
-            break;
-        case 3:
-            speedOfX = randomIntFromInterval(-7.4, 7.4);
-            break;
+    //new random position of X
+    if (result === "Saved" || result === "Goal"){
+        console.log(typeof(reachLevel));
+        switch (reachLevel){
+            case 1:
+                speedOfX = randomIntFromInterval(-1.8, 1.8);
+                break;
+            case 2:
+                speedOfX = randomIntFromInterval(-3.5, 3.5);
+                break;
+            case 3:
+                speedOfX = randomIntFromInterval(-5.4, 5.4);
+                break;
+            case 4:
+                speedOfX = randomIntFromInterval(-7.4, 7.4);
+                break;
+            case 5:
+                speedOfX = randomIntFromInterval(-10.4, 10.4);
+                break;
+        }
     }
-}
-
         result ="no"; //reset result
     }
     
@@ -296,7 +312,6 @@ if (result === "Saved" || result === "Goal"){
   function updateGameArea() {
     myGameArea.clear();
     result = goalKeeperSave();  
-    //resultScoring(result);
     
     drawPitch(width, height, goalPosition1, goalPosition2, centerField);  
     myGameGoalKeeper.newPos();    
@@ -307,6 +322,6 @@ if (result === "Saved" || result === "Goal"){
     throwBall();
     countBoard(penaltyLeft, scoreLandin, scoreComputer);
     resultScoring(result);
-    //result = goalKeeperSave();  
+    
   }
   
