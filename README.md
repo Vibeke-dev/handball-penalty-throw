@@ -5,7 +5,7 @@ Game is made as part of my bootcamp at Ironhack where the first two week has bee
 where third week has been to use that knowledge in creating a game.  
 
 ## Play online
-The came can be accessed directly here: https://vibeke-dev.github.io/handball-penalty-throw/
+The game can be accessed directly here: https://vibeke-dev.github.io/handball-penalty-throw/
 
 ## Setup
 View project in your browser:
