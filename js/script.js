@@ -186,7 +186,7 @@ function logKey(e) {
             }
             break;
           case 40: // down arrow
-            if (myGameGoalKeeper.y<20) {
+            if (myGameGoalKeeper.y<15) {
                 myGameGoalKeeper.speedY += 1;
             }
             break;
