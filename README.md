@@ -14,4 +14,4 @@ View project in your browser:
 - open index.html
 
 ### Note
-Pictures in the game are not mine. 
+No copyright infringement intended. Picture/sound will be removed if requested by the copy right owner. 
