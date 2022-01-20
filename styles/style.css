@@ -3,35 +3,6 @@ body{
     background-size: cover;
 }
 
-button{
-    background: url("../image/flag.png") no-repeat scroll 0 0 transparent;
-    background-size: 200px;
-    width: 200px;
-    height: 150px;
-    font-weight: bold;
-    font-size: 30px;
-    color:black;
-    margin-top: 1px;
-    margin-right: 2px;
-    position:absolute;
-    top:15px;
-    right:50px;
- 
-    border-style: dashed;
-    border-width: 10px;
-    border-color: black;
-}
-
-.keyboard{
-    width: 200px;
-    height: 150px;
-    margin-top: 1px;
-    margin-right: 2px;
-    position:absolute;
-    top: 200px;
-    right:50px;   
-}
-
 .ruleBox{
     background-color: blanchedalmond;
     width: 850px;
@@ -73,4 +44,51 @@ li {
     display: block;
 }
 
+button{
+    background: url("../image/flag.png") no-repeat scroll 0 0 transparent;
+    background-size: 200px;
+    width: 200px;
+    height: 150px;
+    font-weight: bold;
+    font-size: 30px;
+    color:black;
+    margin-top: 1px;
+    margin-right: 2px;
+    position:absolute;
+    top:15px;
+    right:50px;
+ 
+    border-style: dashed;
+    border-width: 10px;
+    border-color: black;
+}
+
+.overview{
+    background-color: blanchedalmond;
+    width: 200px;
+    height: 400px;
+    
+    margin-top: 1px;
+    margin-right: 2px;
+    position:absolute;
+    top: 200px;
+    right:50px;   
+
+    border: 2px solid #EEE;
+    border-radius: 20px;
+}
+
+.overview h3{
+    text-align: center;
+}
+
+.keyboard{
+    width: 200px;
+    height: 150px;
+    margin-top: 1px;
+    margin-right: 2px;
+    position:absolute;
+    top: 460px;
+    right:50px;   
+}
 
