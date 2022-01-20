@@ -87,19 +87,21 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
   var myGameArea = {
       canvas : document.createElement("canvas"),
       start : function() {
-          this.canvas.width = width;
-          this.canvas.height = height;
-          this.context = this.canvas.getContext("2d");
-          this.canvas.style = "position: absolute; top: 20px; left: 0px; right: 0px; bottom: 0px; margin-left: auto; margin-right: auto";
-          document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-          this.frameNo = 0;
-          this.interval = setInterval(updateGameArea, 20);
-          },
+        document.getElementById("playButton").disabled=true;  
+        this.canvas.width = width;
+        this.canvas.height = height;
+        this.context = this.canvas.getContext("2d");
+        this.canvas.style = "position: absolute; top: 20px; left: 0px; right: 0px; bottom: 0px; margin-left: auto; margin-right: auto";
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+        },
       clear : function() {
           this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       },
       stop : function() {
           clearInterval(this.interval);
+          document.getElementById("playButton").disabled=false;  
       }
   }
   
@@ -243,7 +245,7 @@ function resultScoring(result){
                 speedOfX = randomIntFromInterval(1.8);
                 reachLevel = 1;
 
-                myGameArea.stop();
+                //myGameArea.stop();
             }
             else {
                 myResult.text = "Computer scored - Buuhh";
@@ -280,7 +282,7 @@ function resultScoring(result){
                 } 
                 
                 resetValues();
-                myGameArea.stop();
+                //myGameArea.stop();
             }
             else{
                 myResult.text = "Landin/you took the ball";
