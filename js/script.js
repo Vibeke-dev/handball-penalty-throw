@@ -85,7 +85,7 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     myTotalWin = new component(400, 300, "image/winPicture3.jfif", width/2-200, 0, "image");
     myTotalLose = new component(400, 300, "image/losePicture.jfif", width/2-200, 0, "image");
     myTotalWinLevel = new component(100, 200, "image/pokal2R.png", 100, 100, "image");
-    mySoundYay = new sound("image/Cheers after goal.mp3");
+    mySoundYay = new sound("image/Cheers after goal2.mp3");
     mySoundBuh = new sound("image/Crying sound effect.mp3");
   }
   
