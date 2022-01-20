@@ -188,13 +188,13 @@ function logKey(e) {
             }
             break;
           case 37: // left arrow
-            if (myGameGoalKeeper.x>400){
+            if (myGameGoalKeeper.x>150){
                 myGameGoalKeeper.speedX -= 1;            
             }
           break;
           
           case 39: // right arrow
-            if (myGameGoalKeeper.x<1200){
+            if (myGameGoalKeeper.x<900){
                 myGameGoalKeeper.speedX += 1;  
             }
           break;
