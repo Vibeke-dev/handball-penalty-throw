@@ -13,6 +13,7 @@ var reachLevel = 1;
 var speedOfY = -4;
 var speedOfX = randomIntFromInterval(1.8);
 var mySoundYay;
+var mySoundBuh;
 
 function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
 //function to draw the canvas area of the handball field
@@ -84,7 +85,8 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     myTotalWin = new component(400, 300, "image/winPicture3.jfif", width/2-200, 0, "image");
     myTotalLose = new component(400, 300, "image/losePicture.jfif", width/2-200, 0, "image");
     myTotalWinLevel = new component(100, 200, "image/pokal2R.png", 100, 100, "image");
-    mySoundYay = new sound("image/Kids shouting yay! - sound effect.mp3");
+    mySoundYay = new sound("image/Kids shouting yay2.mp3");
+    mySoundBuh = new sound("image/Crying sound effect.mp3");
   }
   
   var myGameArea = {
@@ -237,6 +239,7 @@ function resultScoring(result){
         
 
         if (result === "Goal"){
+            mySoundBuh.play();
             if (scoreComputer === 3){
                 myResult.text = "GAME OVER - TRY AGAIN";
                 myResult.update();
@@ -249,7 +252,7 @@ function resultScoring(result){
                 reachLevel = 1;
             }
             else {
-                myResult.text = "Computer scored - Buuhh";
+                myResult.text = "Computer scored - damn";
                 myResult.update();
 
                 myLoseKeeper.newPos();
