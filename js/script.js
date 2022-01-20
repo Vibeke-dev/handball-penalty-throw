@@ -1,3 +1,17 @@
+var myGameGoalKeeper;
+var myBackground;
+var myGameBall;
+var height = 650;
+var width = 1300;
+var centerField = width/2;
+var goalPosition1 = centerField-250; 
+var goalPosition2 = centerField+250;
+var penaltyLeft = 5;
+var scoreLandin = 0;
+var scoreComputer = 0;
+var reachLevel = 1;
+var speedOfY = -4;
+var speedOfX = randomIntFromInterval(1.8);
 
 function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
 //function to draw the canvas area of the handball field
@@ -47,21 +61,6 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     drawLine([0]);
     //drawLine([5, 10]);
   };
-  
-  var myGameGoalKeeper;
-  var myBackground;
-  var myGameBall;
-  var height = 650;
-  var width = 1300;
-  var centerField = width/2;
-  var goalPosition1 = centerField-250; 
-  var goalPosition2 = centerField+250;
-  var penaltyLeft = 5;
-  var scoreLandin = 0;
-  var scoreComputer = 0;
-  var reachLevel = 1;
-  var speedOfY = -4;
-  var speedOfX = randomIntFromInterval(-1.8, 1.8);
   
   function startGame() {
     myGameArea.start();  
@@ -145,7 +144,7 @@ function throwBall(){
     myGameBall.speedX = speedOfX; 
 }
 
-function randomIntFromInterval(min, max) { 
+function randomIntFromInterval(max) { 
     let randomnum = Number((Math.random() * max).toFixed(2));
     randomnum *= Math.round(Math.random()) ? 1 : -1; // this will add minus sign in 50% of cases
     return randomnum;
@@ -241,7 +240,7 @@ function resultScoring(result){
 
                 resetValues();
                 speedOfY = -4; //reset speed and level on game over
-                speedOfX = randomIntFromInterval(-1.8, 1.8);
+                speedOfX = randomIntFromInterval(1.8);
                 reachLevel = 1;
 
                 myGameArea.stop();
@@ -273,7 +272,7 @@ function resultScoring(result){
                     myCompletion.text = "GAME COMPLETED!!!";
                     myCompletion.update();
                     speedOfY = -4; //reset speed
-                    speedOfX = randomIntFromInterval(-1.8, 1.8);
+                    speedOfX = randomIntFromInterval(1.8);
                     reachLevel = 1;
 
                     myTotalWinLevel.newPos();
@@ -296,19 +295,19 @@ function resultScoring(result){
     if (result === "Saved" || result === "Goal"){
         switch (reachLevel){
             case 1:
-                speedOfX = randomIntFromInterval(-1.8, 1.8);
+                speedOfX = randomIntFromInterval(1.8);
                 break;
             case 2:
-                speedOfX = randomIntFromInterval(-3.5, 3.5);
+                speedOfX = randomIntFromInterval(3.5);
                 break;
             case 3:
-                speedOfX = randomIntFromInterval(-5.4, 5.4);
+                speedOfX = randomIntFromInterval(5.4);
                 break;
             case 4:
-                speedOfX = randomIntFromInterval(-7.4, 7.4);
+                speedOfX = randomIntFromInterval(7.1);
                 break;
             case 5:
-                speedOfX = randomIntFromInterval(-10.4, 10.4);
+                speedOfX = randomIntFromInterval(9.1);
                 break;
         }
     }
@@ -322,11 +321,10 @@ function resultScoring(result){
     result = goalKeeperSave();  
     
     drawPitch(width, height, goalPosition1, goalPosition2, centerField);  
-
     
     myGameGoalKeeper.newPos();    
     myGameGoalKeeper.update();
-    myGameGoalKeeper.speedX=0; //to play in field
+    myGameGoalKeeper.speedX=0; //to stay in field
     myGameGoalKeeper.speedY=0;
     
     
