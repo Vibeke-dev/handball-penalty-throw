@@ -15,9 +15,9 @@ The game can be accessed directly here: [Penalty throw](https://vibeke-dev.githu
 
 ## Setup
 View project in your browser:
-- $ git clone https://github.com/Vibeke-dev/handball-penalty-throw.git in your terminal
-- $ cd handball-penalty-throw
-- $ open index.html
+- `git clone https://github.com/Vibeke-dev/handball-penalty-throw.git` in your terminal
+- `cd handball-penalty-throw`
+- `open index.html`
 
 ### Note
 No copyright infringement intended. Picture/sound will be removed if requested by the copy right owner. 
