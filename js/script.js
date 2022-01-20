@@ -69,11 +69,12 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     myGameGoalKeeper = new component(150, 100, "image/NiklasLandinCopy1.png", width/2-60, 10, "image");
     myGameBall = new component(50, 50, "image/ball-removebg-preview.png", width/2-20, 500, "image"); //init for the ball
     
-    myShootLeft = new component("25px", "Consolas", "black", 50, 500, "text");
-    myLevel = new component("25px", "Consolas", "black", 50, 550, "text");
-    myLevelIncrease = new component("50px", "Consolas", "red", 300, 600, "text");
-    myScoreLandin = new component("25px", "Consolas", "black", 1000, 500, "text");
-    myScoreComputer = new component("25px", "Consolas", "black", 1000, 550, "text");
+    myScoreLandin = new component("25px", "Consolas", "black", 25, 500, "text");
+    myScoreComputer = new component("25px", "Consolas", "black", 25, 525, "text");
+    myShootLeft = new component("25px", "Consolas", "black", 25, 575, "text");
+    myLevel = new component("25px", "Consolas", "black", 25, 600, "text");
+    
+    myLevelIncrease = new component("50px", "Consolas", "red", 300, 520, "text");
     myResult = new component("50px", "Consolas", "black", 350, 450, "text");
     myCompletion = new component("60px", "Consolas", "red", 350, 600, "text");
     
