@@ -12,6 +12,7 @@ var scoreComputer = 0;
 var reachLevel = 1;
 var speedOfY = -4;
 var speedOfX = randomIntFromInterval(1.8);
+var mySoundYay;
 
 function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
 //function to draw the canvas area of the handball field
@@ -83,6 +84,7 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     myTotalWin = new component(400, 300, "image/winPicture3.jfif", width/2-200, 0, "image");
     myTotalLose = new component(400, 300, "image/losePicture.jfif", width/2-200, 0, "image");
     myTotalWinLevel = new component(100, 200, "image/pokal2R.png", 100, 100, "image");
+    mySoundYay = new sound("image/Kids shouting yay! - sound effect.mp3");
   }
   
   var myGameArea = {
@@ -94,7 +96,6 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
         this.context = this.canvas.getContext("2d");
         this.canvas.style = "position: absolute; top: 20px; left: 0px; right: 0px; bottom: 0px; margin-left: auto; margin-right: auto";
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.frameNo = 0;
         this.interval = setInterval(updateGameArea, 20);
         },
       clear : function() {
@@ -232,7 +233,8 @@ function countBoard (penaltyLeft, scoreLandin, scoreComputer){
 function resultScoring(result){
     if (result !== "no" || penaltyLeft<=0){        
         countBoard(penaltyLeft, scoreLandin, scoreComputer);
-        myGameArea.stop();
+        
+        
 
         if (result === "Goal"){
             if (scoreComputer === 3){
@@ -245,8 +247,6 @@ function resultScoring(result){
                 speedOfY = -4; //reset speed and level on game over
                 speedOfX = randomIntFromInterval(1.8);
                 reachLevel = 1;
-
-                //myGameArea.stop();
             }
             else {
                 myResult.text = "Computer scored - Buuhh";
@@ -257,6 +257,7 @@ function resultScoring(result){
             }
         } 
         else if (result === "Saved"){
+            mySoundYay.play();
             if (scoreLandin === 3){
                 //speed level should be increased
                 myResult.text = "Denmark win EU 2022";
@@ -264,7 +265,7 @@ function resultScoring(result){
 
                 myTotalWin.newPos();
                 myTotalWin.update();
-                
+
                 if (reachLevel<=4){
                     reachLevel +=1;
                     speedOfY = speedOfY-4;
@@ -283,7 +284,6 @@ function resultScoring(result){
                 } 
                 
                 resetValues();
-                //myGameArea.stop();
             }
             else{
                 myResult.text = "Landin/you took the ball";
@@ -314,9 +314,9 @@ function resultScoring(result){
                 break;
         }
     }
+        myGameArea.stop();
         result ="no"; //reset result
-    }
-    
+    }   
 }
 
   function updateGameArea() {
@@ -340,3 +340,18 @@ function resultScoring(result){
     
   }
   
+  //extra
+  function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }    
+}
