@@ -47,7 +47,6 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
         myGameArea.context.closePath();
     }
 
-    //drawCicles(centerField, middleField, 75, 0, Math.PI *2, [0]); //circle in the center of the handball pitch
     drawCicles(centerField-175, 0, radius, Math.PI*0.5, Math.PI, [0]); // 1/4 circle, left side of handball field
     drawCicles(centerField+175, 0, radius, 0, Math.PI/2, [0]); // 1/4 circle, right side of handball field
     
@@ -61,25 +60,24 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
         myGameArea.context.stroke();
     }    
     drawLine([0]);
-    //drawLine([5, 10]);
-  };
+};
   
-  function startGame() {
+function startGame() {
     myGameArea.start();  
     var backgroundCanvas = drawPitch(width, height, goalPosition1, goalPosition2, centerField);
     myBackground = new component(1000, 700, backgroundCanvas, 0, 0, "image");
     myGameGoalKeeper = new component(150, 100, "image/NiklasLandinCopy1.png", width/2-60, 10, "image");
     myGameBall = new component(50, 50, "image/ball-removebg-preview.png", width/2-20, 500, "image"); //init for the ball
-    
+
     myScoreLandin = new component("25px", "Consolas", "black", 25, 500, "text");
     myScoreComputer = new component("25px", "Consolas", "black", 25, 525, "text");
     myShootLeft = new component("25px", "Consolas", "black", 25, 575, "text");
     myLevel = new component("25px", "Consolas", "black", 25, 600, "text");
-    
+
     myLevelIncrease = new component("50px", "Consolas", "red", 300, 520, "text");
     myResult = new component("50px", "Consolas", "black", 350, 450, "text");
     myCompletion = new component("60px", "Consolas", "red", 350, 600, "text");
-    
+
     myWinKeeper = new component(300, 200, "image/LandinTakesBall.jfif", width/2-150, 0, "image");
     myLoseKeeper = new component(300, 200, "image/LandinMissesBall.jfif", width/2-150, 0, "image");
     myTotalWin = new component(400, 300, "image/winPicture3.jfif", width/2-200, 0, "image");
@@ -87,63 +85,63 @@ function drawPitch(width, height, goalPosition1, goalPosition2, centerField) {
     myTotalWinLevel = new component(100, 200, "image/pokal2R.png", 100, 100, "image");
     mySoundYay = new sound("image/Cheers after goal2.mp3");
     mySoundBuh = new sound("image/Crying sound effect.mp3");
-  }
+}
   
-  var myGameArea = {
-      canvas : document.createElement("canvas"),
-      start : function() {
-        document.getElementById("playButton").disabled=true;  
-        this.canvas.width = width;
-        this.canvas.height = height;
-        this.context = this.canvas.getContext("2d");
-        this.canvas.style = "position: absolute; top: 20px; left: 0px; right: 0px; bottom: 0px; margin-left: auto; margin-right: auto";
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 20);
-        },
-      clear : function() {
-          this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      },
-      stop : function() {
-          clearInterval(this.interval);
-          document.getElementById("playButton").disabled=false;  
-      }
-  }
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+    document.getElementById("playButton").disabled=true;  
+    this.canvas.width = width;
+    this.canvas.height = height;
+    this.context = this.canvas.getContext("2d");
+    this.canvas.style = "position: absolute; top: 20px; left: 0px; right: 0px; bottom: 0px; margin-left: auto; margin-right: auto";
+    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+    this.interval = setInterval(updateGameArea, 20);
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    stop : function() {
+        clearInterval(this.interval);
+        document.getElementById("playButton").disabled=false;  
+    }
+}
   
-  function component(width, height, color, x, y, type) {
-      this.type = type;
-      if (type === "image") {
-          this.image = new Image();
-          this.image.src = color;
-      }
-      this.width = width;
-      this.height = height;
-      this.speedX = 0;
-      this.speedY = 0;    
-      this.x = x;
-      this.y = y;    
-      this.update = function() {
-          ctx = myGameArea.context;
-          if (type == "image") {
-              ctx.drawImage(this.image, 
-                  this.x, 
-                  this.y,
-                  this.width, this.height);
-          } 
-          else if (this.type == "text") {
-            ctx.font = this.width + " " + this.height;
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    if (type === "image") {
+        this.image = new Image();
+        this.image.src = color;
+    }
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;    
+    this.update = function() {
+        ctx = myGameArea.context;
+        if (type == "image") {
+            ctx.drawImage(this.image, 
+                this.x, 
+                this.y,
+                this.width, this.height);
+        } 
+        else if (this.type == "text") {
+        ctx.font = this.width + " " + this.height;
+        ctx.fillStyle = color;
+        ctx.fillText(this.text, this.x, this.y);
+        }
+        else {
             ctx.fillStyle = color;
-            ctx.fillText(this.text, this.x, this.y);
-          }
-          else {
-              ctx.fillStyle = color;
-              ctx.fillRect(this.x, this.y, this.width, this.height);
-          }
-      }
-      this.newPos = function() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-      }
-  }
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+    this.newPos = function() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    }
+}
 
 function throwBall(){
     myGameBall.speedY = speedOfY; 
@@ -205,12 +203,12 @@ function logKey(e) {
             }
           break;
         }
-      });
+    });
 
-      document.addEventListener('keyup', (e) => {
+    document.addEventListener('keyup', (e) => {
         myGameGoalKeeper.speedX = 0;
         myGameGoalKeeper.speedY = 0;
-      });
+    });
 }
 
 function resetValues() {
@@ -235,8 +233,6 @@ function countBoard (penaltyLeft, scoreLandin, scoreComputer){
 function resultScoring(result){
     if (result !== "no" || penaltyLeft<=0){        
         countBoard(penaltyLeft, scoreLandin, scoreComputer);
-        
-        
 
         if (result === "Goal"){
             mySoundBuh.play();
@@ -297,54 +293,33 @@ function resultScoring(result){
             }        
         }
         
-    //new random position of X
-    if (result === "Saved" || result === "Goal"){
-        switch (reachLevel){
-            case 1:
-                speedOfX = randomIntFromInterval(1.8);
-                break;
-            case 2:
-                speedOfX = randomIntFromInterval(3.5);
-                break;
-            case 3:
-                speedOfX = randomIntFromInterval(5.4);
-                break;
-            case 4:
-                speedOfX = randomIntFromInterval(7.1);
-                break;
-            case 5:
-                speedOfX = randomIntFromInterval(9.1);
-                break;
+        //new random position of X
+        if (result === "Saved" || result === "Goal"){
+            switch (reachLevel){
+                case 1:
+                    speedOfX = randomIntFromInterval(1.8);
+                    break;
+                case 2:
+                    speedOfX = randomIntFromInterval(3.5);
+                    break;
+                case 3:
+                    speedOfX = randomIntFromInterval(5.4);
+                    break;
+                case 4:
+                    speedOfX = randomIntFromInterval(7.1);
+                    break;
+                case 5:
+                    speedOfX = randomIntFromInterval(9.1);
+                    break;
+            }
         }
-    }
+        
         myGameArea.stop();
         result ="no"; //reset result
     }   
 }
 
-  function updateGameArea() {
-    myGameArea.clear();
-    result = goalKeeperSave();  
-    
-    drawPitch(width, height, goalPosition1, goalPosition2, centerField);  
-    
-    myGameGoalKeeper.newPos();    
-    myGameGoalKeeper.update();
-    myGameGoalKeeper.speedX=0; //to stay in field
-    myGameGoalKeeper.speedY=0;
-    
-    
-    myGameBall.newPos();    
-    myGameBall.update();
-    
-    throwBall();
-    countBoard(penaltyLeft, scoreLandin, scoreComputer);
-    resultScoring(result);
-    
-  }
-  
-  //extra
-  function sound(src) {
+function sound(src) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
     this.sound.setAttribute("preload", "auto");
@@ -358,3 +333,24 @@ function resultScoring(result){
         this.sound.pause();
     }    
 }
+
+function updateGameArea() {
+    myGameArea.clear();
+    result = goalKeeperSave();  
+
+    drawPitch(width, height, goalPosition1, goalPosition2, centerField);  
+
+    myGameGoalKeeper.newPos();    
+    myGameGoalKeeper.update();
+    myGameGoalKeeper.speedX=0; //keeper to stay in field
+    myGameGoalKeeper.speedY=0;
+
+    myGameBall.newPos();    
+    myGameBall.update();
+
+    throwBall();
+    countBoard(penaltyLeft, scoreLandin, scoreComputer);
+    resultScoring(result);
+}
+  
+  
