@@ -259,7 +259,7 @@ function resultScoring(result){
             mySoundYay.play();
             if (scoreLandin === 3){
                 //speed level should be increased
-                myResult.text = "Denmark win EU 2022";
+                myResult.text = "Denmark win EM 2022";
                 myResult.update();
 
                 myTotalWin.newPos();
